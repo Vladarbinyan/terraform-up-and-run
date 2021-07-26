@@ -19,8 +19,8 @@ variable "server_port" {
 
 variable "alb_port" {
   type        = number
-  default     = 8080
-  description = "custom HTTP port"
+  default     = 80
+  description = "default HTTP port"
 }
 
 data "aws_vpc" "default" {
@@ -77,6 +77,12 @@ resource "aws_security_group" "allow_8080" {
     from_port   = var.server_port
     to_port     = var.server_port
     protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
@@ -148,9 +154,7 @@ resource "aws_lb_listener_rule" "asg" {
     path_pattern {
       values = ["*"]
     }
-
   }
-
 }
 
 # output
