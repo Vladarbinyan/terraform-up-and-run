@@ -5,6 +5,9 @@ terraform {
       version = "~> 3.0"
     }
   }
+}
+
+terraform {
   backend "s3" {
     bucket = "s3-terraform-state-storage-2021"
     key    = "global/s3/terraform.tfstate"
@@ -13,7 +16,6 @@ terraform {
     dynamodb_table = "terraform-locks"
     encrypt        = true
   }
-
 }
 
 provider "aws" {
@@ -172,3 +174,6 @@ output "alb_dns_name" {
   sensitive   = false
   description = "The public IP address of the my load balancer"
 }
+
+
+
